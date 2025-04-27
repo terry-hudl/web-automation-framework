@@ -1,0 +1,5 @@
+behave
+selenium
+webdriver-manager
+behave-html-pretty-formatter
+python-dotenv
