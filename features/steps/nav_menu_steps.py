@@ -1,20 +1,24 @@
 from behave import when, then
-from pages.landing_page.global_hudl_landing_page import HudlLandingPage
-from pages.page_utils.page_factory import get_page
+from src.core.page_factory        import get_page
+from src.domain.platform          import Platform
+from src.pages.landing            import HudlLandingPage
+
 
 @when('I open the login options within the nav menu')
-def step_open_login_options(context):
-    landing_page = get_page(context, HudlLandingPage)
-    landing_page.invoke_login()
+def step_open_login_dropdown(context):
+    landing: HudlLandingPage = get_page(context, HudlLandingPage)
+    landing.open_login_dropdown()
 
 @when('I initiate logging in to the {platform} platform')
-def step_initiate_login(context, platform: str) -> None:
-    landing_page = get_page(context, HudlLandingPage)
-    landing_page.invoke_platform_login(platform)
+def step_initiate_platform_login(context, platform):
+    landing: HudlLandingPage = get_page(context, HudlLandingPage)
+    landing.choose_platform(Platform(platform.lower()))
+
 
 @then('I should have options to login to different Hudl areas')
 def step_verify_login_options(context):
-    landing = get_page(context, HudlLandingPage)
+    landing: HudlLandingPage = get_page(context, HudlLandingPage)
     missing = landing.verify_login_options()
-    if missing:
-        raise AssertionError("Some login options were missing:\n  " + "\n  ".join(missing))
+    assert not missing, (
+        "These expected login options were absent:\n  " + "\n  ".join(missing)
+    )

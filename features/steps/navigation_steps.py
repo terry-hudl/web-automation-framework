@@ -1,15 +1,17 @@
 from behave import given, when
-from pages.landing_page.global_hudl_landing_page import HudlLandingPage
-from pages.page_utils.platform_registry import get_home_page_class
-from pages.page_utils.page_factory import get_page
+from src.core.page_factory        import get_page
+from src.domain.platform          import Platform, get_home_page_class
+from src.pages.landing            import HudlLandingPage
+
 
 @given('I have opened the Hudl platform')
 def step_open_hudl(context):
-    landing_page = get_page(context, HudlLandingPage)
-    landing_page.load()
+    landing: HudlLandingPage = get_page(context, HudlLandingPage)
+    landing.load()
+
 
 @when('I navigate directly to the {platform} home page')
-def step_navigate_home_page(context, platform: str):
-    home_page = get_page(context, get_home_page_class(platform))
-    home_page.load()
-
+def step_navigate_directly(context, platform):
+    home_cls = get_home_page_class(Platform(platform.lower()))
+    home     = get_page(context, home_cls)
+    home.load()

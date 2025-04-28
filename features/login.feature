@@ -8,12 +8,8 @@ Feature: Login functionality
     Examples:
       | platform      |
       | Hudl          |
-      | Hudl          |
-      | Wyscout       |
       | Wyscout       |
       | Volleymetrics |
-      | Volleymetrics |
-      | Wimu Cloud    |
       | Wimu Cloud    |
 
   Scenario Outline: Unsuccessful login attempt to <platform> using invalid credentials - <scenario_name>
